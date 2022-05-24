@@ -6,15 +6,26 @@ import { useParams } from 'react-router-dom'
 import { POKEMON_API_URL } from '../config'
 
 const useStyles = makeStyles((theme) => ({
-    mainBox : {
-        marginTop : "4.5rem",
+    mainContainer : {
         display : "flex",
         flexDirection : "column",
-        alignItems : "center",
+        marginTop : "9vh",
         backgroundColor : "black",
-        height : "88vh",
         borderRadius : "10px",
+        height : "90vh"
+    },
+    mainBox : {
+        display : "flex",
+        flex : "0.55",
+        flexDirection : "column",
+        alignItems : "center",
+        // height : "88vh",
         padding : "10px 0px"
+    },
+    properties : {
+        display : "flex",
+        flex : "0.45",
+        alignItems : "center"
     },
     pokeName : {
         textTransform : "uppercase",
@@ -39,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
         width : "98.8%",
         height : "3px",
         backgroundColor : "gray",
-        marginBottom : "50px"
+        // marginBottom : "50px"
     },
     like : {
         color : "white",
@@ -48,7 +59,8 @@ const useStyles = makeStyles((theme) => ({
         "&:hover" : {
             color : "red"
         },
-        marginLeft : "15px"
+        marginLeft : "15px",
+        marginBottom : "1vh"
     }
 }))
 
@@ -82,19 +94,19 @@ export default function PokemonDetails() {
             }
 
    return (
-          <Box >
-            <Box className={styleClass.mainBox}>
+          <Box className={styleClass.mainContainer} >
+            <Box className={styleClass.mainBox} >
               <Typography className={styleClass.pokeName}>{name} </Typography>
               <img src={img} className={styleClass.pokeImg}/>
               <hr className={styleClass.seperator}/>
-                <Grid container spacing={2}>
-                    <Grid item md={1}>
-                        <Button>
-                            <FavoriteRounded className={styleClass.like}/>
-                        </Button>
-                    </Grid>
-                </Grid>
             </Box>
+            <Grid container spacing={2} className={styleClass.properties}>
+                <Grid item md={1}>
+                    <Button>
+                        <FavoriteRounded className={styleClass.like}/>
+                    </Button>
+                </Grid>
+            </Grid>
           </Box>
   )
 }
