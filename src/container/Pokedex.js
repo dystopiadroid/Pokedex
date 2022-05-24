@@ -5,14 +5,15 @@ import PokemonCard from '../components/PokemonCard'
 import { IMAGE_URL, POKEMON_API_URL } from '../config'
 
 const useStyles = makeStyles((theme) => ({
-  pokeContainer : {
-    marginTop : "5rem"
-  },
   loading : {
     display : "block",
     margin : "auto",
     position : "relative",
-    top : "40vh"
+    top : "50vh"
+  },
+  pokeGrid : {
+    backgroundColor : "#594f4f",
+    marginTop : "4rem",
   }
 }))
 
@@ -23,7 +24,7 @@ export default function Pokedex() {
 
     useEffect(() => {
       async function getPokemons(){
-      const pokemons = await axios.get(POKEMON_API_URL)
+      const pokemons = await axios.get(POKEMON_API_URL + "?limit=100")
 
         if(pokemons.data != null){
           const {results} = pokemons.data
@@ -50,9 +51,9 @@ export default function Pokedex() {
     }, [])
 
   return (
-    <Box className={styleClass.pokeContainer}>
+    <Box>
       {pokemonList ?
-        <Grid container spacing={3}>
+        <Grid container spacing={3} className={styleClass.pokeGrid}>
           {pokemonList.map((pokemon) => (
               <PokemonCard key={pokemon.id} pokemon={pokemon} image={pokemon.imgUrl}/>
           ))}

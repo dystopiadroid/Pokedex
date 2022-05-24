@@ -1,5 +1,6 @@
 import { Card, Grid, CardContent, Typography, CardMedia, makeStyles} from '@material-ui/core'
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
     CardContent : {
@@ -15,12 +16,17 @@ const useStyles = makeStyles((theme) => ({
     Card : {
         backgroundColor : "black",
         cursor : "pointer",
+        padding : "20px 5px",
         "&:hover" : {
-            backgroundColor : "#3a3a3a"
+            backgroundColor : "#3a3a3a",
+            boxShadow : "2px 6px"
         }
     },
     PokemonName : {
         color : "white"
+    },
+    Link : {
+        textDecoration : "none"
     }
 }))
 
@@ -32,14 +38,16 @@ export default function PokemonCard(props) {
 
   return (
       <Grid item xs={12} sm={3} md={2}>
-        <Card className={styleClass.Card}>
-            <CardContent className={styleClass.CardContent}>
-                <CardMedia image={image} className={styleClass.CardMedia}></CardMedia>
-                <Typography className={styleClass.PokemonName}>
-                    {name}
-                </Typography>
-            </CardContent>
-        </Card>
+        <Link to={`/pokemon/${id}`} className={styleClass.Link}>
+            <Card className={styleClass.Card}>
+                <CardContent className={styleClass.CardContent}>
+                    <CardMedia image={image} className={styleClass.CardMedia}></CardMedia>
+                    <Typography className={styleClass.PokemonName}>
+                        {name}
+                    </Typography>
+                </CardContent>
+            </Card>
+        </Link>
       </Grid>
   )
 }
