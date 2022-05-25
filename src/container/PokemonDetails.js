@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, Grid, makeStyles, Typography } from '@material-ui/core'
+import { Box, Button, Grid, makeStyles, Typography } from '@material-ui/core'
 import { FavoriteRounded } from '@material-ui/icons'
 import axios from 'axios'
 import React, {useEffect, useState} from 'react'
@@ -25,7 +25,10 @@ const useStyles = makeStyles((theme) => ({
     properties : {
         display : "flex",
         flex : "0.45",
-        alignItems : "center"
+        alignItems : "center",
+        // justifyContent : "center",
+        // width : "107vw"
+        // marginLeft : "40px"
     },
     pokeName : {
         textTransform : "uppercase",
@@ -43,24 +46,54 @@ const useStyles = makeStyles((theme) => ({
     pokeImg : {
         height : "150px",
         width : "150px",
-        marginBottom : "170px"
+        // marginBottom : "170px"
     },
     seperator : {
         color : "white",
         width : "98.8%",
         height : "3px",
         backgroundColor : "gray",
+        position : "absolute",
+        top : "460px"
         // marginBottom : "50px"
     },
     like : {
         color : "white",
-        fontSize : "40px",
+        fontSize : "45px",
         cursor : "pointer",
         "&:hover" : {
             color : "red"
         },
-        marginLeft : "15px",
+        // marginLeft : "15px",
         marginBottom : "1vh"
+    },
+    responsiveLike : {
+        color : "white",
+        fontSize : "40px",
+        [theme.breakpoints.up("sm")] : {
+            display : "none"
+        },
+        [theme.breakpoints.down("sm")] : {
+            display : "block"
+        }
+    },
+    likeContainer : {
+        display : "flex",
+        alignItems : "center",
+        justifyContent : "center",
+        [theme.breakpoints.down("sm")] : {
+            display : "none"
+        },
+        [theme.breakpoints.up("sm")] : {
+            display : "flex"
+        }
+    },
+    attributes : {
+        display : "flex",
+        flexDirection : "column",
+        color : "white",
+        justifyContent : "center",
+        alignItems : "center"
     }
 }))
 
@@ -88,9 +121,21 @@ export default function PokemonDetails() {
             const {pokemon} = pokeDetails
             let name = ""
             let img = ""
+            let weight = ""
+            let height = ""
+            let types = []
+            let abilities = []
             if(pokemon){
                 name = pokemon.name
                 img = pokemon.sprites.front_default
+                weight = pokemon.weight
+                height = pokemon.height
+                pokemon.types.forEach((type) => {
+                    types.push(type.type.name)
+                })
+                pokemon.abilities.forEach((ability) => {
+                    abilities.push(ability.ability.name)
+                })
             }
 
    return (
@@ -98,14 +143,45 @@ export default function PokemonDetails() {
             <Box className={styleClass.mainBox} >
               <Typography className={styleClass.pokeName}>{name} </Typography>
               <img src={img} className={styleClass.pokeImg}/>
+                    <Button>
+                        <FavoriteRounded className={styleClass.responsiveLike}/>
+                    </Button>
               <hr className={styleClass.seperator}/>
             </Box>
-            <Grid container spacing={2} className={styleClass.properties}>
-                <Grid item md={1}>
+            <Grid container spacing={1} className={styleClass.properties}>
+                <Grid item md={2} sm={2} xs={6} className={styleClass.likeContainer}>
                     <Button>
                         <FavoriteRounded className={styleClass.like}/>
                     </Button>
                 </Grid>
+                <Grid item md={2} sm={2} xs={12} className={styleClass.attributes}>
+                    <Typography variant='h5'>Weight</Typography>
+                    <Typography>{weight}</Typography>
+                </Grid>
+                 <Grid item md={2} sm={2} xs={6} className={styleClass.attributes}>
+                    <Typography variant='h5'>Height</Typography>
+                    <Typography>{height}</Typography>
+                </Grid>
+                  <Grid item md={2} sm={2} xs={6} className={styleClass.attributes}>
+                    <Typography variant='h5'>Types</Typography>
+                    {types.map((type) => {
+                        return (<Typography>{type}</Typography>)
+                    })}
+                </Grid>
+                   <Grid item md={2} sm={2} xs={6} className={styleClass.attributes}>
+                    <Typography variant='h5'>Ability 1</Typography>
+                    <Typography>{abilities[0]}</Typography>
+                </Grid>
+                    <Grid item md={2} sm={2} xs={6} className={styleClass.attributes}>
+                    <Typography variant='h5'>Ability 2</Typography>
+                    {abilities[1] ? (
+                    <Typography>{abilities[1]}</Typography>
+                    ) :
+                    <Typography>none</Typography>
+                    }
+
+                </Grid>
+     
             </Grid>
           </Box>
   )
