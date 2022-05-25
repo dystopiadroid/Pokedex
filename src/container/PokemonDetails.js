@@ -4,6 +4,7 @@ import axios from 'axios'
 import React, {useEffect, useState} from 'react'
 import { useParams } from 'react-router-dom'
 import { POKEMON_API_URL } from '../config'
+import { toggleFavourite } from '../redux/action'
 
 const useStyles = makeStyles((theme) => ({
     mainContainer : {
@@ -70,10 +71,10 @@ const useStyles = makeStyles((theme) => ({
     responsiveLike : {
         color : "white",
         fontSize : "40px",
-        [theme.breakpoints.up("sm")] : {
+        [theme.breakpoints.up("xs")] : {
             display : "none"
         },
-        [theme.breakpoints.down("sm")] : {
+        [theme.breakpoints.down("xs")] : {
             display : "block"
         }
     },
@@ -97,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-export default function PokemonDetails() {
+export default function PokemonDetails(props) {
 
     const {id} = useParams()
     const styleClass = useStyles()
@@ -156,11 +157,11 @@ export default function PokemonDetails() {
                 </Grid>
                 <Grid item md={2} sm={2} xs={12} className={styleClass.attributes}>
                     <Typography variant='h5'>Weight</Typography>
-                    <Typography>{weight}</Typography>
+                    <Typography>{`${weight} kg`}</Typography>
                 </Grid>
                  <Grid item md={2} sm={2} xs={6} className={styleClass.attributes}>
                     <Typography variant='h5'>Height</Typography>
-                    <Typography>{height}</Typography>
+                    <Typography>{`${height} m`}</Typography>
                 </Grid>
                   <Grid item md={2} sm={2} xs={6} className={styleClass.attributes}>
                     <Typography variant='h5'>Types</Typography>
@@ -186,3 +187,11 @@ export default function PokemonDetails() {
           </Box>
   )
 }
+
+const mapDispatchToProps = (dispatch) => ({
+    toggleFavourite: (pokemon) => dispatch(toggleFavourite(pokemon))
+})
+
+const mapStateToProps = (state) => ({
+    favourites : state.favourites
+})
