@@ -9,6 +9,9 @@ const useStyles = makeStyles((theme) => ({
     link : {
         textDecoration : "none",
     },
+    favLink : {
+        marginLeft : "30px"
+    },
     navTitle : {
         color : "white",
         cursor : "pointer"
@@ -24,6 +27,9 @@ export default function AppNavigator() {
             <Toolbar >
                 <Link to="/" className={classes.link}>
                     <Typography className={classes.navTitle}>Pokedex</Typography> 
+                </Link>
+                <Link to="/favourites" className={`${classes.link} ${classes.favLink}`}>
+                    <Typography className={classes.navTitle}>Favourites</Typography> 
                 </Link>
             </Toolbar>
         </AppBar>
