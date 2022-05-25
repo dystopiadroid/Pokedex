@@ -11,7 +11,6 @@ import  { store, persistor } from './redux/store'
 function App() {
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
         <Router>
           <AppNavigator/>
           <Switch>
@@ -19,7 +18,6 @@ function App() {
             <Route exact path="/" component={Pokedex}/>
           </Switch>
         </Router>
-      </PersistGate>
     </Provider>
   )
 }

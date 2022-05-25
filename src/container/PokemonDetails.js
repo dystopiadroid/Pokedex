@@ -4,7 +4,8 @@ import axios from 'axios'
 import React, {useEffect, useState} from 'react'
 import { useParams } from 'react-router-dom'
 import { POKEMON_API_URL } from '../config'
-import { toggleFavourite } from '../redux/action'
+import { clearState, toggleFavourite } from '../redux/action'
+import {useDispatch, useSelector} from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
     mainContainer : {
@@ -104,6 +105,10 @@ export default function PokemonDetails(props) {
     const styleClass = useStyles()
     const [pokeDetails, setPokeDetails] = useState({})
 
+    const dispatch = useDispatch()
+    const pokemonState = useSelector(state => state.favourites)
+    console.log(pokemonState)
+
     useEffect(() => {
         async function getPokemonDetails(){
             const response = await axios.get(POKEMON_API_URL + "/" + id )
@@ -126,6 +131,7 @@ export default function PokemonDetails(props) {
             let height = ""
             let types = []
             let abilities = []
+            let index = 0
             if(pokemon){
                 name = pokemon.name
                 img = pokemon.sprites.front_default
@@ -151,7 +157,7 @@ export default function PokemonDetails(props) {
             </Box>
             <Grid container spacing={1} className={styleClass.properties}>
                 <Grid item md={2} sm={2} xs={6} className={styleClass.likeContainer}>
-                    <Button>
+                    <Button onClick={() => {dispatch(toggleFavourite(pokemon))}}>
                         <FavoriteRounded className={styleClass.like}/>
                     </Button>
                 </Grid>
@@ -166,7 +172,7 @@ export default function PokemonDetails(props) {
                   <Grid item md={2} sm={2} xs={6} className={styleClass.attributes}>
                     <Typography variant='h5'>Types</Typography>
                     {types.map((type) => {
-                        return (<Typography>{type}</Typography>)
+                        return (<Typography key={index++}>{type}</Typography>)
                     })}
                 </Grid>
                    <Grid item md={2} sm={2} xs={6} className={styleClass.attributes}>
@@ -187,11 +193,3 @@ export default function PokemonDetails(props) {
           </Box>
   )
 }
-
-const mapDispatchToProps = (dispatch) => ({
-    toggleFavourite: (pokemon) => dispatch(toggleFavourite(pokemon))
-})
-
-const mapStateToProps = (state) => ({
-    favourites : state.favourites
-})
