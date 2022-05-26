@@ -13,16 +13,17 @@ const pokemonReducer = (state = initialData, action) => {
         case TOGGLE_FAVOURITE:
             let pokemon = action.payload
             let pokemonFromFavList = state.favourites.find((favPokemon) => {
-                return (favPokemon === pokemon)
+                return (favPokemon.id === pokemon.id)
             })
 
-            console.log(pokemonFromFavList)
+            console.log("pokemonFromFavList -->", pokemonFromFavList)
+            console.log("pokemon -->", pokemon)
 
             return {
                 ...state,
                 favourites : pokemonFromFavList ? [
                     ...state.favourites.filter(
-                        (favPokemon) => favPokemon !== pokemonFromFavList
+                        (favPokemon) => favPokemon.id !== pokemonFromFavList.id
                     )
                 ] : [...state.favourites, pokemon]
             }
